@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ZhihuReader</string>
+    <string name="openDrawercontentDescRes">openDrawerContentDescRes</string>
+    <string name="closeDrawercontentDescRes">closeDrawerContentDescRes</string>
 </resources>

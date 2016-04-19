@@ -1,9 +1,16 @@
 package org.zreo.zhihureader;
 
+
+import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -23,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     CoordinatorLayout rootLayout;
     FloatingActionButton fabBtn;
 
+    NavigationView navigationView;
+
+    Fragment fragment ;
+    HomePageFragment homePageFragment = new HomePageFragment();
+    FindFragment findFragment = new FindFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         initToolBar();
         initInstances();
+        initHomePage();
     }
 
     private void initToolBar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("首页");
         setSupportActionBar(toolbar);
+    }
+
+    private void initHomePage(){
+        fragment = new HomePageFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.theContainer,fragment).commit();
+        switchContent(fragment,homePageFragment);
     }
 
     private void initInstances(){
@@ -48,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
         fabBtn = (FloatingActionButton) findViewById(R.id.fabBtn);
 
-
+        navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -83,4 +104,58 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.navHomePage:
+                toolbar.setTitle("首页");
+                switchContent(fragment,homePageFragment);
+                break;
+            case R.id.navFind:
+                toolbar.setTitle("发现");
+                switchContent(fragment,findFragment);
+                break;
+            case R.id.navNotice:
+
+                break;
+            case R.id.navCollect:
+
+                break;
+            case R.id.navCir:
+
+                break;
+            case R.id.navMail:
+
+                break;
+            case R.id.navToggle:
+
+                break;
+            case R.id.navSetting:
+
+                break;
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void switchContent(Fragment from ,Fragment to){
+
+        if (fragment != to) {
+            fragment = to;
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            System.out.println(to.isAdded());
+            if (!to.isAdded()) {
+                ft.add(R.id.theContainer, to).commit();
+
+            }else {
+                ft.hide(from).show(to).commit();
+            }
+        }
+    }
+
 }

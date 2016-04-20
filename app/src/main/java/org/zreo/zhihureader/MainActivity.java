@@ -28,14 +28,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle actionBarDrawerToggle;
 
     CoordinatorLayout rootLayout;
-    FloatingActionButton fabBtn;
+
 
     NavigationView navigationView;
 
     Fragment fragment ;
     HomePageFragment homePageFragment = new HomePageFragment();
     FindFragment findFragment = new FindFragment();
-
+    FocusFragment focusFragment = new FocusFragment();
+    CirFragment cirFragment = new CirFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-        fabBtn = (FloatingActionButton) findViewById(R.id.fabBtn);
 
         navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
@@ -117,17 +117,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setTitle("发现");
                 switchContent(fragment,findFragment);
                 break;
-            case R.id.navNotice:
-
+            case R.id.navFocus:
+                toolbar.setTitle("关注");
+                switchContent(fragment,focusFragment);
                 break;
             case R.id.navCollect:
-
+                toolbar.setTitle("收藏");
                 break;
             case R.id.navCir:
-
+                toolbar.setTitle("圆桌");
+                switchContent(fragment,cirFragment);
                 break;
             case R.id.navMail:
-
+                toolbar.setTitle("私信");
                 break;
             case R.id.navToggle:
 
@@ -148,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            System.out.println(to.isAdded());
             if (!to.isAdded()) {
                 ft.add(R.id.theContainer, to).commit();
 

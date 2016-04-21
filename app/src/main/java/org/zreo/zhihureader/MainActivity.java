@@ -145,13 +145,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void switchContent(Fragment from ,Fragment to){
 
-        if (fragment != to) {
+        if (fragment.getClass() != to.getClass()) {
             fragment = to;
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             if (!to.isAdded()) {
-                ft.add(R.id.theContainer, to).commit();
+                ft.hide(from).add(R.id.theContainer, to).commit();
 
             }else {
                 ft.hide(from).show(to).commit();

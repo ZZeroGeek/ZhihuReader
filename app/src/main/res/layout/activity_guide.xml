@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="org.zreo.zhihureader.GuideActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/guide_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_above="@+id/buttonlayout"
+        >
+        <ImageView
+            android:id="@+id/point1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_point_selected"/>
+        <ImageView
+            android:id="@+id/point2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_point"/>
+        <ImageView
+            android:id="@+id/point3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_point"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttonlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="61dp"
+            android:layout_marginStart="61dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right|center_horizontal"
+            android:layout_marginRight="61dp"
+            android:layout_marginEnd="61dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</RelativeLayout>

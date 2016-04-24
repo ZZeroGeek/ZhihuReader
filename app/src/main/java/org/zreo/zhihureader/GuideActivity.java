@@ -1,25 +1,33 @@
 package org.zreo.zhihureader;
 
+import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 /**
  * Created by kakin on 2016/4/22.
  */
 
-public class GuideActivity extends Activity implements ViewPager.OnPageChangeListener {
+public class GuideActivity extends Activity  {
 
     private ViewPager viewPager;
     private ViewPageAdapter viewPageAdapter;
     private ArrayList<View> views;
     private View view1,view2,view3;
     private ImageView[] dots;
+    private ImageView pointing;
     private int[] ids = {R.id.point1,R.id.point2,R.id.point3};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +36,10 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
 
         initView();
         initDots();
-        viewPager.addOnPageChangeListener(this);
+
+        viewPager.setPageTransformer(true, new parallaxTransformer(0.4f));
+        viewPager.addOnPageChangeListener(new pageChangeListener());
+
 
         findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,31 +66,91 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
     }
 
     private void initDots(){
+        pointing = (ImageView) findViewById(R.id.pointing);
         dots = new ImageView[views.size()];
         for (int i = 0; i<views.size(); i++){
             dots[i] = (ImageView) findViewById(ids[i]);
         }
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  //页面被滑动时调用
+    class parallaxTransformer implements ViewPager.PageTransformer{
 
-    }
+        float parallaxCoefficient;
 
-    @Override
-    public void onPageSelected(int position) {                            //当前页面被选中时候调用
+        ArgbEvaluator colorEvaluator = new ArgbEvaluator();
+        int colorTextBegin, colorTextEnd;
 
-        for (int i = 0; i<ids.length; i++){
-            if (i == position){
-                dots[i].setImageResource(R.drawable.login_point_selected);
-            }else {
-                dots[i].setImageResource(R.drawable.login_point);
+        public parallaxTransformer(float parallaxCoefficient){
+            this.parallaxCoefficient = parallaxCoefficient;
+
+            colorTextBegin = getResources().getColor(R.color.colorTextbegin);
+            colorTextEnd = getResources().getColor(R.color.colorTextEnd);
+
+
+        }
+        @Override
+        public void transformPage(View page, float position) {
+
+            float scrollxoffset = page.getWidth()*parallaxCoefficient;
+
+            TextView tv;
+            tv= (TextView) page.findViewById(R.id.tvZhiHu);
+            if (tv != null){
+                tv.setTranslationX(-scrollxoffset*position);
+                Integer color = (Integer) colorEvaluator.evaluate(-position, colorTextBegin, colorTextEnd);
+                tv.setTextColor(color);
             }
+
         }
     }
+    class pageChangeListener implements ViewPager.OnPageChangeListener{
+
+        int mPageWidth, mTotalScrollWidth;
+        public pageChangeListener(){
+            Point size = new Point();
+            Display display = getWindowManager().getDefaultDisplay();
+            display.getSize(size);
+            mPageWidth = size.x;
+            mTotalScrollWidth = mPageWidth*viewPageAdapter.getCount();
+
+        }
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  //页面被滑动时调用
+
+            float ratio = (mPageWidth * position + positionOffsetPixels) / (float) mTotalScrollWidth;
+            Log.d("实时数据：","onPageScrolled当前点击页面："+position+"--当前页面偏移的百分比："+positionOffset
+                    +"--当前页面偏移的像数位置："+positionOffsetPixels);
+            int[] location = new int[2];
+            int[] location2 = new int[2];
+            dots[0].getLocationInWindow(location);
+            dots[2].getLocationInWindow(location2);
+//        TranslateAnimation ta = new TranslateAnimation(0,(location2[0]-location[0]),0,0);
+//        pointing.startAnimation(ta);
+            pointing.setTranslationX((location2[0]-location[0])*ratio*3/2);
+        }
+
+        @Override
+        public void onPageSelected(int position) {                            //当前页面被选中时候调用
+
+//            for (int i = 0; i<ids.length; i++){
+//                if (i == position){
+//                    dots[i].setImageResource(R.drawable.login_point_selected);
+//                }else {
+//                    dots[i].setImageResource(R.drawable.login_point);
+//                }
+//            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {                   //滑动状态改变时候调用
+
+        }
+
+    }
 
     @Override
-    public void onPageScrollStateChanged(int state) {                   //滑动状态改变时候调用
-
+    protected void onDestroy() {
+        viewPager.removeOnPageChangeListener(new pageChangeListener());
+        super.onDestroy();
     }
 }

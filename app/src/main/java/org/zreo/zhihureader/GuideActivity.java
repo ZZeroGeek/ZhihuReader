@@ -1,26 +1,26 @@
 package org.zreo.zhihureader;
 
 import android.animation.ArgbEvaluator;
-import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Point;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 /**
  * Created by kakin on 2016/4/22.
  */
 
-public class GuideActivity extends Activity  {
+public class GuideActivity extends FragmentActivity {
 
     private ViewPager viewPager;
     private ViewPageAdapter viewPageAdapter;
@@ -41,6 +41,14 @@ public class GuideActivity extends Activity  {
         viewPager.addOnPageChangeListener(new pageChangeListener());
 
 
+        findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog loginDialog = new LoginDialog(GuideActivity.this,R.style.LoginDialog);
+                loginDialog.show();
+
+            }
+        });
         findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

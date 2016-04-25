@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context="org.zreo.zhihureader.GuideActivity">
+    tools:context="org.zreo.zhihureader.GuideActivity"
+    android:id="@+id/theGuide">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/guide_viewPager"

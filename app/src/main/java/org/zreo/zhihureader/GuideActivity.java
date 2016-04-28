@@ -28,6 +28,7 @@ public class GuideActivity extends FragmentActivity {
     private View view1,view2,view3;
     private ImageView[] dots;
     private ImageView pointing;
+    private Dialog loginDialog;
     private int[] ids = {R.id.point1,R.id.point2,R.id.point3};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class GuideActivity extends FragmentActivity {
         findViewById(R.id.gotologin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog loginDialog = new LoginDialog(GuideActivity.this,R.style.LoginDialog);
+                loginDialog = new LoginDialog(GuideActivity.this,R.style.LoginDialog);
                 loginDialog.show();
 
             }
@@ -159,6 +160,8 @@ public class GuideActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         viewPager.removeOnPageChangeListener(new pageChangeListener());
+        loginDialog.dismiss();
         super.onDestroy();
     }
+
 }

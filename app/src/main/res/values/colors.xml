@@ -7,4 +7,6 @@
     <color name="nav_item_text_color">#333</color>
     <color name="colorTextbegin">#ffff</color>
     <color name="colorTextEnd">#58afe6</color>
+    <color name="canLogin">#3a7dc1</color>
+    <color name="cannotLogin">#cdcdca</color>
 </resources>

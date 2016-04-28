@@ -10,6 +10,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorAccent">#60b1d4</item>
     </style>
 
     <style name="LoginDialog" parent="@android:style/Theme.Dialog">

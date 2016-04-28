@@ -41,7 +41,7 @@ public class GuideActivity extends FragmentActivity {
         viewPager.addOnPageChangeListener(new pageChangeListener());
 
 
-        findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.gotologin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Dialog loginDialog = new LoginDialog(GuideActivity.this,R.style.LoginDialog);

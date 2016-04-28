@@ -3,6 +3,20 @@ package org.zreo.zhihureader;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by kakin on 2016/4/25.
@@ -10,6 +24,10 @@ import android.os.Bundle;
 public class LoginDialog extends Dialog {
 
     Context context;
+    private EditText mUsernameView;
+    private EditText mPasswordView;
+    private Button btnlogin;
+    private Button btnloginother;
     public LoginDialog(Context context) {
         super(context);
         this.context =context;
@@ -23,5 +41,69 @@ public class LoginDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.dialog_login);
+        btnlogin = (Button) findViewById(R.id.btnlogin);
+        btnloginother = (Button) findViewById(R.id.btnloginbyother);
+
+        mUsernameView = (EditText) findViewById(R.id.username);
+//        mPasswordView = (EditText) findViewById(R.id.password);
+
+        mUsernameView.addTextChangedListener(new UsernameWatcher());
+
     }
+
+    class UsernameWatcher implements TextWatcher{
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            Toast.makeText(getContext(),"已输入账号",Toast.LENGTH_SHORT).show();
+
+            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.login_fragment);
+
+            EditText password = new EditText(getContext());
+            password.setId(R.id.password);
+            password.setHint("密码");
+
+            TextInputLayout mtextInputLayout = (TextInputLayout) findViewById(R.id.userInput);
+            int theWidth = mtextInputLayout.getWidth();
+
+            Toast.makeText(getContext(),"长度是"+theWidth,Toast.LENGTH_SHORT).show();
+            TextInputLayout textInputLayout = new TextInputLayout(getContext());
+            textInputLayout.setId(R.id.textinput);
+
+            TextInputLayout.LayoutParams editParams = new LinearLayout.LayoutParams(theWidth,TextInputLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams relaParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams btnloginParams = (RelativeLayout.LayoutParams) btnlogin.getLayoutParams();
+            RelativeLayout.LayoutParams otherloginParams = (RelativeLayout.LayoutParams) btnloginother.getLayoutParams();
+
+
+            relaParams.addRule(RelativeLayout.BELOW,R.id.userInput);
+
+            relaParams.addRule(RelativeLayout.ALIGN_START,R.id.userInput);
+            relaParams.addRule(RelativeLayout.ALIGN_LEFT);
+
+
+            btnloginParams.addRule(RelativeLayout.BELOW,R.id.textinput);
+            otherloginParams.addRule(RelativeLayout.BELOW,R.id.textinput);
+
+            btnlogin.setLayoutParams(btnloginParams);
+            btnloginother.setLayoutParams(otherloginParams);
+
+            relativeLayout.addView(textInputLayout,relaParams);
+            textInputLayout.addView(password,editParams);
+
+
+        }
+    }
+
+
 }
